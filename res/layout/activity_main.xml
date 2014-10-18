@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/Baund"
+                android:layout_width="100dip"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/spPort"
+                android:layout_width="230dip"
+                android:layout_height="wrap_content" />
+            
+            <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            
+                <Button
+                android:id="@+id/btStart"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#33dd11"
+                android:text="Start" />
+                
+            	<Button
+                android:id="@+id/btClear"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="ClearTips" />
+            
+            </LinearLayout>
+            
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btSend"
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/linearLayout1"
+                android:text="Send" />
+
+            <EditText
+                android:id="@+id/sendData"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scView1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true" >
+
+            <TextView
+                android:id="@+id/showtext"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#c0f0ff"
+                android:paddingLeft="15dip"
+                android:scrollbars="vertical" />
+        </ScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

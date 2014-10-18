@@ -1,0 +1,19 @@
+<resources>
+
+    <string name="app_name">SerialPort</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+
+     <string-array name="BaundString">
+        <item>300</item>
+        <item>1200</item>
+        <item>2400</item>
+        <item>4800</item>
+        <item>9600</item>
+        <item>19200</item>
+        <item>115200</item>
+        <item>460800</item>
+        <item>921600</item>
+    </string-array>
+</resources>

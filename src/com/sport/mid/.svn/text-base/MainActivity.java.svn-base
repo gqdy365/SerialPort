@@ -1,0 +1,124 @@
+package com.mid.serialport;
+
+import java.io.IOException;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+
+import com.mid.common.MidCommon;
+import com.mid.common.MidProtocol;
+import com.serialport.apis.SerialPort;
+
+public class MainActivity extends Activity {
+
+	private static final String TAG = SerialPort.class.getSimpleName();
+	
+	private MidCommon mMidCom;
+	private Spinner spPort;
+	private String[] devicePaths;
+	private int nCurSelDev=0;
+	private Button btStart,btStop,btSend;
+	
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        mMidCom=new MidCommon(this);
+        
+        String[] devices=mMidCom.getSerialPortFinder().getAllDevices(); 
+        devicePaths=mMidCom.getSerialPortFinder().getAllDevicesPath();
+        
+        spPort = (Spinner) findViewById(R.id.spPort);
+        ArrayAdapter<String> adProvince=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,devices);
+		adProvince.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spPort.setAdapter(adProvince);
+        
+		spPort.setOnItemSelectedListener(new OnItemSelectedListener() {
+			
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				mMidCom.ClosePort();
+				
+				nCurSelDev=arg2;
+				Log.d(TAG,"arg2="+arg2+",devicePath="+devicePaths[nCurSelDev]);
+				mMidCom.OpenPort(devicePaths[nCurSelDev]);
+			}
+	
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub 
+				
+			}
+		});
+		
+		btStart=(Button)findViewById(R.id.btStart);
+		btStop=(Button)findViewById(R.id.btStop);
+		btSend=(Button)findViewById(R.id.btSend);
+		
+		btStart.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mMidCom.startRead();
+			}
+		});
+		
+		btStop.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mMidCom.stopRead();
+			}
+		});
+		
+		btSend.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mMidCom.sendData(MidProtocol.CM_CHECK_CHANNEL_STATE);
+			}
+		});
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+    
+    private void DisplayError(int resourceId) {
+		AlertDialog.Builder b = new AlertDialog.Builder(this);
+		b.setTitle("Error");
+		b.setMessage(resourceId);
+		b.setPositiveButton("OK", new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				MainActivity.this.finish();
+			}
+		});
+		b.show();
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		if(mMidCom!=null){
+			mMidCom.freeMidCommon();
+		}
+		mMidCom=null;
+		
+		super.onDestroy();
+	}
+
+}
